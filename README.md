@@ -72,6 +72,59 @@ Climate decision-support tools currently suffer from a **macro-to-micro disconne
 └──────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
+### 🔄 Dual-Engine Execution Sequence Diagram
+
+The sequence diagram below models the unified, asynchronous execution flow across micro-scale multimodal perception, resilience circuit breaking, deterministic LCA accounting, and macro-scale satellite/CPCB geospatial ML inference:
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Citizen as Citizen / Policy Analyst
+    participant UI as React 18 Glassmorphic SPA
+    participant CB as Resilience Circuit Breaker
+    participant Gemini as Gemini Flash Vision
+    participant LCA as Deterministic LCA Engine
+    participant Gateway as FastAPI Macro Gateway
+    participant SatVision as MobileNetV2 Satellite Trunk
+    participant GroundML as XGBoost CPCB Regressor
+    participant Sim as Dynamic 2050 Simulator
+
+    Citizen->>UI: Submit Meal Photo / Receipt + City Coordinate (e.g. Delhi)
+    UI->>CB: Dispatch Ingestion Request (Micro Engine)
+
+    alt Gemini API Operational (Normal Flow)
+        CB->>Gemini: Forward Image (Zero Math Requested)
+        Gemini-->>CB: Structured JSON (Items, Estimated Mass in Grams)
+        CB->>LCA: Verified Item Names & Portions
+    else API Rate Limit / Quota Exhausted (HTTP 429/503)
+        CB-->>UI: Trip Breaker → Serve Deterministic Category Means (Zero Downtime)
+    end
+
+    par Concurrent Macro-Scale Inference
+        UI->>Gateway: GET /api/v1/city-climate-risk (Delhi Coordinates)
+        Gateway->>SatVision: Forward Sentinel-2 5m Optical Patch
+        SatVision->>SatVision: Global Average Pooling + Dropout Inference
+        SatVision-->>Gateway: Deforestation Risk Probability (0.924 ROC-AUC)
+    and
+        Gateway->>GroundML: Query 5.7M CPCB Feature Lags (1-14 + Rolling Means)
+        GroundML->>GroundML: XGBoost Regression Inference (3.8ms Latency)
+        GroundML-->>Gateway: Predicted PM2.5 (R² = 0.902) & AQI Risk Band
+    end
+    Gateway-->>UI: Stream Regional Atmospheric & Canopy Telemetry Payload
+
+    LCA->>LCA: 4-Tier Exact Item Matching & Factor Resolution (Poore & Nemecek 2018)
+    LCA->>LCA: Add Additive Cooking Energy (CEA India v19: 0.716 kg CO2e/kWh)
+    LCA->>LCA: Compute Marginal Abatement Cost (MAC in ₹/kg CO2e)
+    LCA-->>UI: Return Calibrated kg CO2e Emissions & High-ROI Swaps
+
+    opt Citizen Toggles 2050 Urban Simulation
+        UI->>Sim: Submit Net Carbon Delta & Regional Climate Anomalies
+        Sim-->>UI: Stream Dynamic 2050 Urban Flood/Heat Map & Letter Narrative
+    end
+
+    UI-->>Citizen: Render Unified Dashboard (AQI, Deforestation, Carbon Footprint, Swaps)
+```
+
 ---
 
 ## 🔬 Model Interpretability & Diagnostic Evidence
